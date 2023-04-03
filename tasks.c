@@ -46,11 +46,12 @@ void task2(TeamList **teamList, int *numberOfTeams, char *fileNameOutput) {
     writeTeamNamesInFile(*teamList, fileNameOutput);
 }
 
-void task3(TeamList **teamList, char *fileNameOutput) {
+TeamList *task3(TeamList **teamList, char *fileNameOutput) {
     int flag = 0;
     int roundNumber = 0;
-    int numberOfMatches;
+    int numberOfTeams;
     Queue *matchQueue;
+    TeamList *last8Finalists = NULL;
     
     do {
         
@@ -74,7 +75,7 @@ void task3(TeamList **teamList, char *fileNameOutput) {
         // print queue
         writeRoundTitleInFile(++roundNumber, fileNameOutput);
 
-        // TODO afisare coada
+        // afisare coada
         QueueNode *current = matchQueue->front;
         while(current != NULL) {
             writeMatchInFile(current->val, fileNameOutput);
@@ -117,11 +118,9 @@ void task3(TeamList **teamList, char *fileNameOutput) {
 
         deleteStack(&losersStack);
 
-        
-
         writeWinnersTitleInFile(roundNumber, fileNameOutput);
 
-        // TODO afisare stiva
+        // afisare stiva
         StackNode *stackCopy = winnersStack;
         FILE *file = fopen(fileNameOutput, "at");
         if(file != NULL) {
@@ -130,19 +129,26 @@ void task3(TeamList **teamList, char *fileNameOutput) {
         }
 
 
-        numberOfMatches = 0;
+        numberOfTeams = 0;
         while(isStackEmpty(winnersStack) == 0) {
-            numberOfMatches++;
+            numberOfTeams++;
             Match *newMatch = malloc(sizeof(Match));
             Team *aux1 = pop(&winnersStack);
             newMatch->firstTeam = aux1;
             if(isStackEmpty(winnersStack) == 0) {
-                numberOfMatches++;
+                numberOfTeams++;
                 Team *aux2 = pop(&winnersStack);
                 newMatch->secondTeam = aux2;
             }
             enQueue(matchQueue, newMatch);
         }
+
+        // stocare ultimii 8
+        if(numberOfTeams == 8) {
+            
+            storeLast8Finalists(&last8Finalists, matchQueue->front);
+        }
         
-    } while(numberOfMatches > 1);
+    } while(numberOfTeams > 1);
+    return last8Finalists;
 }

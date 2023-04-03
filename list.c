@@ -27,7 +27,6 @@ void addTeamToTeamList(TeamList **teamList, Team *team) {
     *teamList = newNode;
 }
 
-
 void writeTeamNamesInFile(TeamList *teamList, char *fileName) {
     FILE *file = fopen(fileName, "wt");
     if(file != NULL) {

@@ -43,4 +43,10 @@ void deleteQueue(Queue*q){
 	free(q);
 }	
 
-
+void storeLast8Finalists(TeamList **last8Finalists, QueueNode *q) {
+	addTeamToTeamList(last8Finalists, q->val->firstTeam);
+	addTeamToTeamList(last8Finalists, q->val->secondTeam);
+	if(q->next != NULL) {
+		storeLast8Finalists(last8Finalists, q->next);
+	}
+}
