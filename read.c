@@ -20,8 +20,11 @@ void readTeamName(FILE *file, Team **newTeam) {
         asa pe LINUX.
     */
     fscanf(file, "%99[^\r]", teamName);
+    if(teamName[strlen(teamName)-1] == ' ') {
+        teamName[strlen(teamName)-1] = '\0';
+    }
     fgetc(file);
-    fgetc(file); 
+    fgetc(file);
     *newTeam = malloc(sizeof(Team));
     (*newTeam)->name = malloc((strlen(teamName) + 1) * sizeof(char));
     strcpy((*newTeam)->name, teamName);

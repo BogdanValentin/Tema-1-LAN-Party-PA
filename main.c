@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
             task2(&teamList, &numberOfTeams, argv[3]);
         }
         if(tasks[2] == 1) {
-            //task3();
+            task3(&teamList, argv[3]);
         }
         if(tasks[3] == 1) {
             //task4();
