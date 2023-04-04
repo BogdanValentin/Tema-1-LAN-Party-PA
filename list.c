@@ -27,17 +27,6 @@ void addTeamToTeamList(TeamList **teamList, Team *team) {
     *teamList = newNode;
 }
 
-void writeTeamNamesInFile(TeamList *teamList, char *fileName) {
-    FILE *file = fopen(fileName, "wt");
-    if(file != NULL) {
-        while(teamList != NULL) {
-            fprintf(file, "%s\n", teamList->team->name);
-            teamList = teamList->next;
-        }
-        fclose(file);
-    }
-}
-
 void deletePlayerList(PlayerList **playerList) {
     if(*playerList != NULL) {
         PlayerList *next = (*playerList)->next;
@@ -80,51 +69,3 @@ void eliminateTeam(TeamList **teamList, TeamList *teamToEliminate) {
         free(teamToEliminate);
     }
 }
-
-void writeRoundTitleInFile(int roundNumber, char *fileName) {
-    FILE *file = fopen(fileName, "at");
-    if(file != NULL) {
-        fprintf(file, "\n--- ROUND NO:%d\n", roundNumber);
-        fclose(file);
-    }
-}
-
-void writeWinnersTitleInFile(int roundNumber, char *fileName) {
-    FILE *file = fopen(fileName, "at");
-    if(file != NULL) {
-        fprintf(file, "\nWINNERS OF ROUND NO:%d\n", roundNumber);
-        fclose(file);
-    }
-}
-
-void writeMatchInFile(Match *match, char *fileName) {
-    FILE *file = fopen(fileName, "at");
-    if(file != NULL) {
-        fprintf(file, "%-33s-%33s\n", match->firstTeam->name, match->secondTeam->name);
-        fclose(file);
-    }
-}
-
-float findTeamScore(Team *team) {
-    int points = 0, numberOfPlayers = 0;
-    PlayerList *currentPlayerList = team->players;
-    while(currentPlayerList != NULL) {
-        numberOfPlayers++;
-        points += currentPlayerList->player->points;
-        currentPlayerList = currentPlayerList->next;
-    }
-    float mean = (float) points / numberOfPlayers;
-    return mean;
-}
-
-void writeWinnerInFile(Team *team, char *fileName) {
-    FILE *file = fopen(fileName, "at");
-    if(file != NULL) {
-        fprintf(file, "%-35s-  %.2f\n", team->name, findTeamScore(team));
-        fclose(file);
-    }
-}
-
-
-
-

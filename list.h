@@ -36,8 +36,4 @@ void writeTeamNamesInFile(TeamList *teamList, char *fileName);
 void deletePlayerList(PlayerList **playerList);
 void deleteTeamList(TeamList **teamList);
 void eliminateTeam(TeamList **teamList, TeamList *teamToEliminate);
-void writeRoundTitleInFile(int roundNumber, char *fileName);
-void writeWinnersTitleInFile(int roundNumber, char *fileName);
-void writeMatchInFile(Match *match, char *fileName);
-float findTeamScore(Team *team);
-void writeWinnerInFile(Team *team, char *fileName);
+

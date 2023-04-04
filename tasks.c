@@ -47,108 +47,47 @@ void task2(TeamList **teamList, int *numberOfTeams, char *fileNameOutput) {
 }
 
 TeamList *task3(TeamList **teamList, char *fileNameOutput) {
-    int flag = 0;
-    int roundNumber = 0;
-    int numberOfTeams;
-    Queue *matchQueue;
     TeamList *last8Finalists = NULL;
+    int roundNumber = 0;    // contor runda
+    int numberOfTeams;      // contor numar echipe pentru a ne opri cand ajungem la echipa castigatoare
     
+    // creare coada cu echipe
+    Queue *matchQueue = NULL;
+    fillQueueWithMatches(&matchQueue, *teamList);
+
     do {
-        
-        // creare coada
-        if(flag == 0) {
-            matchQueue = createQueue();
-            TeamList *teamListCopy = *teamList;
-            while(teamListCopy != NULL && teamListCopy->next != NULL) {
-                Match *newMatch = malloc(sizeof(Match));
-
-                newMatch->firstTeam = teamListCopy->team;
-                newMatch->secondTeam = teamListCopy->next->team;
-
-                enQueue(matchQueue, newMatch);
-
-                teamListCopy = teamListCopy->next->next;
-            }
-            flag = 1;
-        }
-        
-        // print queue
+        // afisare numarul rundei
         writeRoundTitleInFile(++roundNumber, fileNameOutput);
 
-        // afisare coada
-        QueueNode *current = matchQueue->front;
-        while(current != NULL) {
-            writeMatchInFile(current->val, fileNameOutput);
-            current = current->next;
-        }
+        // afisare meciuri intre echipe
+        writeRoundMatchesInFile(matchQueue, fileNameOutput);
 
         // creare stive
         StackNode *losersStack = NULL;
         StackNode *winnersStack = NULL;
-        while(isQueueEmpty(matchQueue) == 0) {
-            Match *currentMatch = deQueue(matchQueue);
-
-            // calcul puncte prima echipa
-            float mean1 = findTeamScore(currentMatch->firstTeam);
-            
-            // calcul puncte a doua echipa
-            float mean2 = findTeamScore(currentMatch->secondTeam);
-            
-            if(mean1 > mean2) {
-                push(&winnersStack, currentMatch->firstTeam);
-
-                push(&losersStack, currentMatch->secondTeam);
-            } else {
-                push(&losersStack, currentMatch->firstTeam);
-
-                push(&winnersStack, currentMatch->secondTeam);
-            }
-        }
-
+        createWinnerLosersStacks(matchQueue, &winnersStack, &losersStack);
+        
         // adaugare un punct fiecarui player 
-        StackNode *winnersStackCopy = winnersStack;
-        while(winnersStackCopy != NULL) {
-            PlayerList *currentPos = winnersStackCopy->val->players;
-            while(currentPos != NULL) {
-                currentPos->player->points++;
-                currentPos = currentPos->next;
-            }
-            winnersStackCopy = winnersStackCopy->next;
-        }
+        addOnePointToEveryPlayerFromStack(winnersStack);
 
+        // stergere stiva pierzatori
         deleteStack(&losersStack);
 
+        // afisare titlu castigatori
         writeWinnersTitleInFile(roundNumber, fileNameOutput);
 
-        // afisare stiva
-        StackNode *stackCopy = winnersStack;
-        FILE *file = fopen(fileNameOutput, "at");
-        if(file != NULL) {
-            functiebelea(stackCopy, file);
-            fclose(file);
-        }
+        // afisare castigatori
+        writeWinnersInFile(winnersStack, fileNameOutput);
 
+        // refacere coada meciuri din stiva de castigatori
+        refillQueueWithMatches(matchQueue, &winnersStack, &numberOfTeams);
 
-        numberOfTeams = 0;
-        while(isStackEmpty(winnersStack) == 0) {
-            numberOfTeams++;
-            Match *newMatch = malloc(sizeof(Match));
-            Team *aux1 = pop(&winnersStack);
-            newMatch->firstTeam = aux1;
-            if(isStackEmpty(winnersStack) == 0) {
-                numberOfTeams++;
-                Team *aux2 = pop(&winnersStack);
-                newMatch->secondTeam = aux2;
-            }
-            enQueue(matchQueue, newMatch);
-        }
-
-        // stocare ultimii 8
+        // stocare ultimele 8 echipe
         if(numberOfTeams == 8) {
-            
             storeLast8Finalists(&last8Finalists, matchQueue->front);
         }
         
-    } while(numberOfTeams > 1);
+    } while(numberOfTeams > 1); // pana cand avem un castigator
+
     return last8Finalists;
 }

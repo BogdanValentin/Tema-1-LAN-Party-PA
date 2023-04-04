@@ -21,4 +21,3 @@ void enQueue(Queue*q, Data *v);
 Data *deQueue(Queue*q);
 int isQueueEmpty(Queue*q);
 void deleteQueue(Queue*q);
-void storeLast8Finalists(TeamList **last8Finalists, QueueNode *q);

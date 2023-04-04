@@ -8,7 +8,7 @@ Queue* createQueue(){
 	return q;	
 }
 
- void enQueue(Queue*q, Data *v){
+void enQueue(Queue*q, Data *v){
 	QueueNode* newNode=(QueueNode*)malloc(sizeof(QueueNode));
 	newNode->val=v;
 	newNode->next=NULL;
@@ -42,11 +42,3 @@ void deleteQueue(Queue*q){
 	}
 	free(q);
 }	
-
-void storeLast8Finalists(TeamList **last8Finalists, QueueNode *q) {
-	addTeamToTeamList(last8Finalists, q->val->firstTeam);
-	addTeamToTeamList(last8Finalists, q->val->secondTeam);
-	if(q->next != NULL) {
-		storeLast8Finalists(last8Finalists, q->next);
-	}
-}

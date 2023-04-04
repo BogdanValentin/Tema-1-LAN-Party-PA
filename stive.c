@@ -31,10 +31,3 @@ void deleteStack(StackNode**top){
 		free(temp);
 	}
 }
-
-void functiebelea(StackNode *stackCopy, FILE *file) {
-        fprintf(file, "%-34s-  %.2f\n", stackCopy->val->name, findTeamScore(stackCopy->val));
-		if(stackCopy->next != NULL) {
-			functiebelea(stackCopy->next, file);
-		}
-}

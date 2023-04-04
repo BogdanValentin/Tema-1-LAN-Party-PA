@@ -8,3 +8,4 @@
 
 int findMaxPowOf2(int number);
 void findTeamToEliminate(TeamList **teamList, TeamList **teamToEliminate);
+float findTeamScore(Team *team);
