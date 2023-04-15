@@ -16,7 +16,6 @@ int main(int argc, char *argv[])
     if(fileTasks != NULL) {
         int tasks[5];
 
-        // TODO REFACTOR FUNCTIE
         for(int i = 0; i < NUMBEROFTASKS; i++) {
             fscanf(fileTasks, "%d", &tasks[i]);
         }
@@ -31,14 +30,15 @@ int main(int argc, char *argv[])
         }
         if(tasks[2] == 1) {
             last8Finalists = task3(&teamList, argv[3]);
+            deleteTeamList(&teamList);
         }
         if(tasks[3] == 1) {
-            //task4();
+            task4(last8Finalists, argv[3]);
+            deleteTeamList(&last8Finalists);
         }
         if(tasks[4] == 1) {
             //task5();
         }
     }
-    deleteTeamList(&teamList);
     return 0;
 }

@@ -8,7 +8,7 @@ Queue* createQueue(){
 	return q;	
 }
 
-void enQueue(Queue*q, Data *v){
+void enQueue(Queue*q, Match *v){
 	QueueNode* newNode=(QueueNode*)malloc(sizeof(QueueNode));
 	newNode->val=v;
 	newNode->next=NULL;
@@ -20,14 +20,24 @@ void enQueue(Queue*q, Data *v){
 	if (q->front==NULL) q->front=q->rear; 
 }
  
-Data *deQueue(Queue*q) {  
-	QueueNode* aux; Data *d;
-	aux=q->front; 
-	d=aux->val;
-	q->front=(q->front)->next;
-	free(aux);
-	return d;  	
-} 
+Match *deQueue(Queue *q) {
+    if (q->front == NULL) {
+        return NULL; // Return NULL if the queue is empty
+    }
+
+    QueueNode *aux = q->front;
+    Match *d = aux->val;
+
+    if (q->front == q->rear) {
+        q->front = q->rear = NULL; // Set front and rear to NULL if there was only one element in the queue
+    } else {
+        q->front = q->front->next;
+    }
+
+    free(aux);
+    return d;
+}
+
 
 int isQueueEmpty(Queue*q){
 	return (q->front==NULL);

@@ -1,8 +1,9 @@
 #include "tasks.h"
 #include "queue.h"
 #include "stive.h"
+#include "tree.h"
 
-int  task1(TeamList **teamList, char *fileNameInput, char *fileNameOutput) {
+int task1(TeamList **teamList, char *fileNameInput, char *fileNameOutput) {
     FILE *fileDate = fopen(fileNameInput, "rt");
     int numberOfTeams;
     if(fileDate != NULL) {
@@ -54,6 +55,8 @@ TeamList *task3(TeamList **teamList, char *fileNameOutput) {
     // creare coada cu echipe
     Queue *matchQueue = NULL;
     fillQueueWithMatches(&matchQueue, *teamList);
+   
+    StackNode *winnersStack = NULL;
 
     do {
         // afisare numarul rundei
@@ -64,7 +67,6 @@ TeamList *task3(TeamList **teamList, char *fileNameOutput) {
 
         // creare stive
         StackNode *losersStack = NULL;
-        StackNode *winnersStack = NULL;
         createWinnerLosersStacks(matchQueue, &winnersStack, &losersStack);
         
         // adaugare un punct fiecarui player 
@@ -89,5 +91,29 @@ TeamList *task3(TeamList **teamList, char *fileNameOutput) {
         
     } while(numberOfTeams > 1); // pana cand avem un castigator
 
+    deleteQueue(matchQueue);
+    deleteStack(&winnersStack);
+
     return last8Finalists;
+}
+
+void task4(TeamList *last8Finalists, char *fileNameOutput) {
+    BSTNode *root = NULL;
+    while(last8Finalists != NULL) {
+        root = BST_insert(root, last8Finalists->team);
+        last8Finalists = last8Finalists->next;
+    }
+
+    // titlu
+    FILE *file = fopen(fileNameOutput, "at");
+    if(file) {
+        fprintf(file, "\nTOP 8 TEAMS:\n");
+        fclose(file);
+    }
+    
+    BST_DRS(root, fileNameOutput);
+}
+
+void task5() {
+    
 }

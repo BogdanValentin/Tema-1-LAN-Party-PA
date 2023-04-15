@@ -36,4 +36,5 @@ void writeTeamNamesInFile(TeamList *teamList, char *fileName);
 void deletePlayerList(PlayerList **playerList);
 void deleteTeamList(TeamList **teamList);
 void eliminateTeam(TeamList **teamList, TeamList *teamToEliminate);
+void addTeamCopyToTeamList(TeamList **teamList, Team *team);
 

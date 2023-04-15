@@ -5,10 +5,8 @@
 
 #include "list.h"
 
-typedef Match Data;
-
 typedef struct QueueNode {
-    Data *val;
+    Match *val;
     struct QueueNode *next;
 } QueueNode;
 
@@ -17,7 +15,7 @@ typedef struct Queue {
 } Queue;
 
 Queue* createQueue();
-void enQueue(Queue*q, Data *v);
-Data *deQueue(Queue*q);
+void enQueue(Queue*q, Match *v);
+Match *deQueue(Queue*q);
 int isQueueEmpty(Queue*q);
 void deleteQueue(Queue*q);

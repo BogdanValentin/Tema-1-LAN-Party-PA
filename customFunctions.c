@@ -19,12 +19,12 @@ void createWinnerLosersStacks(Queue *matchQueue, StackNode **winnersStack, Stack
 
                 push(winnersStack, currentMatch->secondTeam);
             }
-        }
+    }
 }
 
 void storeLast8Finalists(TeamList **last8Finalists, QueueNode *q) {
-	addTeamToTeamList(last8Finalists, q->val->firstTeam);
-	addTeamToTeamList(last8Finalists, q->val->secondTeam);
+	addTeamCopyToTeamList(last8Finalists, q->val->firstTeam);
+	addTeamCopyToTeamList(last8Finalists, q->val->secondTeam);
 	if(q->next != NULL) {
 		storeLast8Finalists(last8Finalists, q->next);
 	}

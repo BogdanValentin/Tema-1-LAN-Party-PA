@@ -27,6 +27,36 @@ void addTeamToTeamList(TeamList **teamList, Team *team) {
     *teamList = newNode;
 }
 
+void addTeamCopyToTeamList(TeamList **teamList, Team *team) { // deep copy
+    Team *newTeam = malloc(sizeof(Team));
+
+    newTeam->name = malloc(strlen(team->name) + 1);
+    strcpy(newTeam->name, team->name);
+
+    newTeam->players = NULL;
+
+    PlayerList *currentPlayer = team->players;
+    while (currentPlayer != NULL) {
+        Player *newPlayer = malloc(sizeof(Player));
+        newPlayer->firstName = malloc(strlen(currentPlayer->player->firstName) + 1);
+        strcpy(newPlayer->firstName, currentPlayer->player->firstName);
+
+        newPlayer->secondName = malloc(strlen(currentPlayer->player->secondName) + 1);
+        strcpy(newPlayer->secondName, currentPlayer->player->secondName);
+
+        newPlayer->points = currentPlayer->player->points;
+
+        PlayerList *newPlayersList = malloc(sizeof(PlayerList));
+        newPlayersList->player = newPlayer;
+        newPlayersList->next = newTeam->players;
+        newTeam->players = newPlayersList;
+
+        currentPlayer = currentPlayer->next;
+    }
+
+    addTeamToTeamList(teamList, newTeam);
+}
+
 void deletePlayerList(PlayerList **playerList) {
     if(*playerList != NULL) {
         PlayerList *next = (*playerList)->next;

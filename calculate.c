@@ -5,7 +5,6 @@ int findMaxPowOf2(int number) {
     while(pow(2, power) <= number) {
         power++;
     }
-    
     power--;
     return power;
 }
