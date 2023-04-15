@@ -97,7 +97,7 @@ TeamList *task3(TeamList **teamList, char *fileNameOutput) {
     return last8Finalists;
 }
 
-void task4(TeamList *last8Finalists, char *fileNameOutput) {
+TeamList *task4(TeamList *last8Finalists, char *fileNameOutput) {
     BSTNode *root = NULL;
     while(last8Finalists != NULL) {
         root = BST_insert(root, last8Finalists->team);
@@ -110,10 +110,27 @@ void task4(TeamList *last8Finalists, char *fileNameOutput) {
         fprintf(file, "\nTOP 8 TEAMS:\n");
         fclose(file);
     }
-    
-    BST_DRS(root, fileNameOutput);
+    TeamList *last8FinalistsDescending = NULL;
+    BST_DRS(&last8FinalistsDescending, root, fileNameOutput);
+    return last8FinalistsDescending;
 }
 
-void task5() {
+void task5(TeamList *last8finalistsDescending, char *fileNameOutput) {
+    AVLNode *root = NULL;
+    while(last8finalistsDescending != NULL) {
+        root = AVL_insert(root, last8finalistsDescending->team);
+        last8finalistsDescending = last8finalistsDescending->next;
+    }
     
+    FILE *file = fopen(fileNameOutput, "at");
+    if(file) {
+        fprintf(file, "\nTHE LEVEL 2 TEAMS ARE:\n");
+        fclose(file);
+    }
+    int level = -1;
+    AVL_DRS(root, fileNameOutput, level);
+        // problema la egalitate
+
+
+        // todo vazut inaltimea de unde se numara
 }

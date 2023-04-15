@@ -35,15 +35,33 @@ BSTNode *BST_insert(BSTNode *root, Team *team) {
     return root;
 }
 
-void BST_DRS(BSTNode *root, char *fileNameOutput) {
+void BST_DRS(TeamList **list, BSTNode *root, char *fileNameOutput) {
     if(root) {
-        BST_DRS(root->right, fileNameOutput);
+        BST_DRS(list, root->right, fileNameOutput);
         FILE *file = fopen(fileNameOutput, "at");
         if(file) {
             fprintf(file, "%-34s-  %.2f\n", root->val->name, findTeamScore(root->val));
+            addTeamToBeginningTeamList(list, root->val);
             fclose(file);
         }
-        BST_DRS(root->left, fileNameOutput);
+        BST_DRS(list, root->left, fileNameOutput);
+    }
+}
+
+// level e -1
+void AVL_DRS(AVLNode *root, char *fileNameOutput, int level) {
+    if(root) {
+        level++;
+        AVL_DRS(root->right, fileNameOutput, level);
+        FILE *file = fopen(fileNameOutput, "at");
+        if(file) {
+            // sa fie pe nivel 2
+            if(level == 2) {
+                fprintf(file, "%s\n", root->val->name);
+            }
+            fclose(file);
+        }
+        AVL_DRS(root->left, fileNameOutput, level);
     }
 }
 
@@ -80,9 +98,6 @@ AVLNode *RLRotation(AVLNode *z) {
 }
 
 AVLNode *AVL_insert(AVLNode *node, Team *team) {
-    float scoreOfNode = findTeamScore(node->val);
-    float scoreOfTeam = findTeamScore(team);
-
     if(node == NULL) {
         node = malloc(sizeof(AVLNode));
         node->val = team;
@@ -90,16 +105,35 @@ AVLNode *AVL_insert(AVLNode *node, Team *team) {
         node->left = node->right = NULL;
         return node;
     }
+
+    float scoreOfNode = findTeamScore(node->val);
+    float scoreOfTeam = findTeamScore(team);
+
     if(scoreOfTeam < scoreOfNode) {
         node->left = AVL_insert(node->left, team);
     } else if(scoreOfTeam > scoreOfNode) {
         node->right = AVL_insert(node->right, team);
-    } else return node;
+    } else {
+        if(strcmp(node->val->name, team->name) > 0) {
+            node->left = AVL_insert(node->left, team);
+        } else if(strcmp(node->val->name, team->name) < 0){
+            node->right = AVL_insert(node->right, team);
+        }
+    }
     node->height = 1 + max(nodeHeight(node->left),nodeHeight(node->right));
     int k = nodeHeight(node->left) - nodeHeight(node->right);
 
-    float scoreOfLeftChild = findTeamScore(node->left->val);
-    float scoreOfRightChild = findTeamScore(node->right->val);
+    float scoreOfLeftChild, scoreOfRightChild;
+    if(node->left != NULL) {
+        scoreOfLeftChild = findTeamScore(node->left->val);
+    } else {
+        scoreOfLeftChild = 0;
+    }
+    if(node->right != NULL) {
+        scoreOfRightChild = findTeamScore(node->right->val);
+    } else {
+        scoreOfRightChild = 0;
+    }
 
     if(k > 1 && scoreOfTeam < scoreOfLeftChild) {
         return rightRotation(node);

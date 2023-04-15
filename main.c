@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
 //  ./lanParty c.in d.in r.out
 {
     TeamList *teamList = NULL, *last8Finalists = NULL;
+    TeamList *last8FinalistsDescending = NULL;
     int numberOfTeams = 0;
 
     FILE *fileTasks = fopen(argv[1], "rt");
@@ -33,11 +34,10 @@ int main(int argc, char *argv[])
             deleteTeamList(&teamList);
         }
         if(tasks[3] == 1) {
-            task4(last8Finalists, argv[3]);
-            deleteTeamList(&last8Finalists);
+            last8FinalistsDescending = task4(last8Finalists, argv[3]);
         }
         if(tasks[4] == 1) {
-            //task5();
+            task5(last8FinalistsDescending, argv[3]);
         }
     }
     return 0;

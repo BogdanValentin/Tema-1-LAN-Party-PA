@@ -24,13 +24,17 @@ void findTeamToEliminate(TeamList **teamList, TeamList **teamToEliminate) {
 }
 
 float findTeamScore(Team *team) {
-    int points = 0, numberOfPlayers = 0;
-    PlayerList *currentPlayerList = team->players;
-    while(currentPlayerList != NULL) {
-        numberOfPlayers++;
-        points += currentPlayerList->player->points;
-        currentPlayerList = currentPlayerList->next;
+    if(team != NULL) {
+        int points = 0, numberOfPlayers = 0;
+        PlayerList *currentPlayerList = team->players;
+        while(currentPlayerList != NULL) {
+            numberOfPlayers++;
+            points += currentPlayerList->player->points;
+            currentPlayerList = currentPlayerList->next;
+        }
+        float mean = (float) points / numberOfPlayers;
+        return mean;
+    } else {
+        return -1;
     }
-    float mean = (float) points / numberOfPlayers;
-    return mean;
 }

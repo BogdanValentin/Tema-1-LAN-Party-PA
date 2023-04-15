@@ -27,6 +27,21 @@ void addTeamToTeamList(TeamList **teamList, Team *team) {
     *teamList = newNode;
 }
 
+void addTeamToBeginningTeamList(TeamList **teamList, Team *team) {
+    TeamList *newNode = malloc(sizeof(TeamList));
+    newNode->team = team;
+    newNode->next = NULL;
+    if (*teamList == NULL) {
+        *teamList = newNode;
+    } else {
+        TeamList *teamListCopy = *teamList;
+        while (teamListCopy->next != NULL) {
+            teamListCopy = teamListCopy->next;
+        }
+        teamListCopy->next = newNode;
+    }
+}
+
 void addTeamCopyToTeamList(TeamList **teamList, Team *team) { // deep copy
     Team *newTeam = malloc(sizeof(Team));
 

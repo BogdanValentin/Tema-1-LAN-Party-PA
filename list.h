@@ -32,6 +32,7 @@ typedef struct Match {
 void addPlayerToPlayerList(PlayerList **playerList, Player *player);
 void addPlayerListToTeam(Team **team, PlayerList *playerList);
 void addTeamToTeamList(TeamList **teamList, Team *team);
+void addTeamToBeginningTeamList(TeamList **teamList, Team *team);
 void writeTeamNamesInFile(TeamList *teamList, char *fileName);
 void deletePlayerList(PlayerList **playerList);
 void deleteTeamList(TeamList **teamList);
