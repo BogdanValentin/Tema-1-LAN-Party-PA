@@ -41,21 +41,19 @@ void BST_DRS(TeamList **list, BSTNode *root, char *fileNameOutput) {
         FILE *file = fopen(fileNameOutput, "at");
         if(file) {
             fprintf(file, "%-34s-  %.2f\n", root->val->name, findTeamScore(root->val));
-            addTeamToBeginningTeamList(list, root->val);
+            addTeamToBeginningOfTeamList(list, root->val);
             fclose(file);
         }
         BST_DRS(list, root->left, fileNameOutput);
     }
 }
 
-// level e -1
 void AVL_DRS(AVLNode *root, char *fileNameOutput, int level) {
     if(root) {
         level++;
         AVL_DRS(root->right, fileNameOutput, level);
         FILE *file = fopen(fileNameOutput, "at");
         if(file) {
-            // sa fie pe nivel 2
             if(level == 2) {
                 fprintf(file, "%s\n", root->val->name);
             }
@@ -121,7 +119,7 @@ AVLNode *AVL_insert(AVLNode *node, Team *team) {
         }
     }
     node->height = 1 + max(nodeHeight(node->left),nodeHeight(node->right));
-    int k = nodeHeight(node->left) - nodeHeight(node->right);
+    int k = nodeHeight(node->left) - nodeHeight(node->right); // nivel de dezordine
 
     float scoreOfLeftChild, scoreOfRightChild;
     if(node->left != NULL) {
@@ -135,11 +133,23 @@ AVLNode *AVL_insert(AVLNode *node, Team *team) {
         scoreOfRightChild = 0;
     }
 
-    if(k > 1 && scoreOfTeam < scoreOfLeftChild) {
-        return rightRotation(node);
+    if (k > 1) {
+        if (scoreOfTeam < scoreOfLeftChild) {
+            return rightRotation(node);
+        } else if (scoreOfTeam == scoreOfLeftChild) {
+            if (strcmp(node->left->val->name, team->name) > 0) {
+                return rightRotation(node);
+            }
+        }
     }
-    if(k < -1 && scoreOfTeam > scoreOfRightChild) {
-        return leftRotation(node);
+    if (k < -1) {
+        if (scoreOfTeam > scoreOfLeftChild) {
+            return leftRotation(node);
+        } else if (scoreOfTeam == scoreOfLeftChild) {
+            if (strcmp(node->left->val->name, team->name) < 0) {
+                return leftRotation(node);
+            }
+        }
     }
     if(k > 1 && scoreOfTeam > scoreOfLeftChild) {
         return RLRotation(node);
@@ -148,4 +158,11 @@ AVLNode *AVL_insert(AVLNode *node, Team *team) {
         return LRRotation(node);
     }
     return node;
+}
+
+void createBSTTree(BSTNode **root, TeamList *last8Finalists) {
+    while(last8Finalists != NULL) {
+        *root = BST_insert(*root, last8Finalists->team);
+        last8Finalists = last8Finalists->next;
+    }
 }

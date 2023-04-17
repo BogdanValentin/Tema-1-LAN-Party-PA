@@ -1,16 +1,12 @@
 #include "tasks.h"
-#include "queue.h"
-#include "stive.h"
-#include "tree.h"
 
-int task1(TeamList **teamList, char *fileNameInput, char *fileNameOutput) {
+void task1(TeamList **teamList, int *numberOfTeams, char *fileNameInput, char *fileNameOutput) {
     FILE *fileDate = fopen(fileNameInput, "rt");
-    int numberOfTeams;
     if(fileDate != NULL) {
-        readNumberOfTeams(fileDate, &numberOfTeams);
+        readNumberOfTeams(fileDate, numberOfTeams);
 
         // citire date fiecare echipa
-        for(int i = 0; i < numberOfTeams; i++) {
+        for(int i = 0; i < *numberOfTeams; i++) {
             // TODO refactor for-ul
             int numberOfPlayersInTeam;
             readNumberOfPlayersInTeam(fileDate, &numberOfPlayersInTeam);
@@ -27,12 +23,13 @@ int task1(TeamList **teamList, char *fileNameInput, char *fileNameOutput) {
 
             addPlayerListToTeam(&newTeam, playerList);
 
-            addTeamToTeamList(teamList, newTeam);
+            addTeamToEndOfTeamList(teamList, newTeam);
         }
         fclose(fileDate);
+    } else {
+        fileError(fileNameInput);
     }
     writeTeamNamesInFile(*teamList, fileNameOutput);
-    return numberOfTeams;
 }
 
 void task2(TeamList **teamList, int *numberOfTeams, char *fileNameOutput) {
@@ -41,14 +38,13 @@ void task2(TeamList **teamList, int *numberOfTeams, char *fileNameOutput) {
     while(*numberOfTeams > wantedNumberOfTeams) {
         TeamList *teamToEliminate = NULL;
         findTeamToEliminate(teamList, &teamToEliminate);
-        eliminateTeam(teamList, teamToEliminate);
+        deleteTeam(teamList, teamToEliminate);
         (*numberOfTeams)--;
     }
     writeTeamNamesInFile(*teamList, fileNameOutput);
 }
 
-TeamList *task3(TeamList **teamList, char *fileNameOutput) {
-    TeamList *last8Finalists = NULL;
+void task3(TeamList **teamList, TeamList **last8Finalists, char *fileNameOutput) {
     int roundNumber = 0;    // contor runda
     int numberOfTeams;      // contor numar echipe pentru a ne opri cand ajungem la echipa castigatoare
     
@@ -86,33 +82,26 @@ TeamList *task3(TeamList **teamList, char *fileNameOutput) {
 
         // stocare ultimele 8 echipe
         if(numberOfTeams == 8) {
-            storeLast8Finalists(&last8Finalists, matchQueue->front);
+            storeLast8Finalists(last8Finalists, matchQueue->front);
         }
         
     } while(numberOfTeams > 1); // pana cand avem un castigator
 
     deleteQueue(matchQueue);
     deleteStack(&winnersStack);
-
-    return last8Finalists;
 }
 
-TeamList *task4(TeamList *last8Finalists, char *fileNameOutput) {
+void task4(TeamList *last8Finalists, TeamList **last8FinalistsDescending, char *fileNameOutput) {
     BSTNode *root = NULL;
-    while(last8Finalists != NULL) {
-        root = BST_insert(root, last8Finalists->team);
-        last8Finalists = last8Finalists->next;
-    }
+    createBSTTree(&root, last8Finalists);
 
-    // titlu
     FILE *file = fopen(fileNameOutput, "at");
     if(file) {
         fprintf(file, "\nTOP 8 TEAMS:\n");
         fclose(file);
     }
-    TeamList *last8FinalistsDescending = NULL;
-    BST_DRS(&last8FinalistsDescending, root, fileNameOutput);
-    return last8FinalistsDescending;
+
+    BST_DRS(last8FinalistsDescending, root, fileNameOutput);
 }
 
 void task5(TeamList *last8finalistsDescending, char *fileNameOutput) {
@@ -129,8 +118,4 @@ void task5(TeamList *last8finalistsDescending, char *fileNameOutput) {
     }
     int level = -1;
     AVL_DRS(root, fileNameOutput, level);
-        // problema la egalitate
-
-
-        // todo vazut inaltimea de unde se numara
 }

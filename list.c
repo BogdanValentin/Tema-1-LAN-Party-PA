@@ -20,14 +20,14 @@ void addPlayerListToTeam(Team **team, PlayerList *playerList) {
     (*team)->players = playerList;
 }
 
-void addTeamToTeamList(TeamList **teamList, Team *team) {
+void addTeamToEndOfTeamList(TeamList **teamList, Team *team) {
     TeamList *newNode = malloc(sizeof(TeamList));
     newNode->team = team;
     newNode->next = *teamList;
     *teamList = newNode;
 }
 
-void addTeamToBeginningTeamList(TeamList **teamList, Team *team) {
+void addTeamToBeginningOfTeamList(TeamList **teamList, Team *team) {
     TeamList *newNode = malloc(sizeof(TeamList));
     newNode->team = team;
     newNode->next = NULL;
@@ -42,7 +42,7 @@ void addTeamToBeginningTeamList(TeamList **teamList, Team *team) {
     }
 }
 
-void addTeamCopyToTeamList(TeamList **teamList, Team *team) { // deep copy
+void addTeamCopyToTeamList(TeamList **teamList, Team *team) {
     Team *newTeam = malloc(sizeof(Team));
 
     newTeam->name = malloc(strlen(team->name) + 1);
@@ -69,39 +69,44 @@ void addTeamCopyToTeamList(TeamList **teamList, Team *team) { // deep copy
         currentPlayer = currentPlayer->next;
     }
 
-    addTeamToTeamList(teamList, newTeam);
+    addTeamToEndOfTeamList(teamList, newTeam);
 }
 
-void deletePlayerList(PlayerList **playerList) {
+void freePlayerList(PlayerList **playerList) {
     if(*playerList != NULL) {
         PlayerList *next = (*playerList)->next;
         free((*playerList)->player->firstName);
         free((*playerList)->player->secondName);
         free(*playerList);
         *playerList = NULL;
-        deletePlayerList(&next);
+        freePlayerList(&next);
     }
 }
 
-void deleteTeamList(TeamList **teamList) {
+void freeTeamList(TeamList **teamList) {
     if(*teamList != NULL) {
         TeamList *next = (*teamList)->next;
         free((*teamList)->team->name);
-        deletePlayerList(&(*teamList)->team->players);
+        freePlayerList(&(*teamList)->team->players);
         free(*teamList);
         *teamList = NULL;
-        deleteTeamList(&next);
+        freeTeamList(&next);
     }
 }
 
-void eliminateTeam(TeamList **teamList, TeamList *teamToEliminate) {
+void freeTeam(Team **team) {
+    free((*team)->name);
+    freePlayerList(&(*team)->players);
+    free(*team);
+}
+
+void deleteTeam(TeamList **teamList, TeamList *teamToEliminate) {
     if (*teamList == NULL || teamToEliminate == NULL) {
         return;
     }
     // First node
     if (teamToEliminate == *teamList) {
         *teamList = (*teamList)->next;
-        free(teamToEliminate);
     } else { // Rest of the nodes
         TeamList *current = *teamList;
         while(current->next != NULL) {
@@ -111,6 +116,7 @@ void eliminateTeam(TeamList **teamList, TeamList *teamToEliminate) {
             }
             current = current->next;
         }
-        free(teamToEliminate);
     }
+    freeTeam(&teamToEliminate->team);
+    free(teamToEliminate);
 }

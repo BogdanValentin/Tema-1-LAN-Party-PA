@@ -31,13 +31,13 @@ void readTeamName(FILE *file, Team **newTeam) {
 }
 
 void readNamesOfPlayer(FILE *file, Player **newPlayer) {
-    // citire primul nume player
+    // read first name of the player
     char firstName[100];
     fscanf(file, "%s", firstName);
     (*newPlayer)->firstName = malloc((strlen(firstName) + 1) * sizeof(char));
     strcpy((*newPlayer)->firstName, firstName);
 
-    // citire al doilea nume player
+    // read second name of the player
     char secondName[100];
     fscanf(file, "%s", secondName);
     (*newPlayer)->secondName = malloc((strlen(secondName) + 1) * sizeof(char));
