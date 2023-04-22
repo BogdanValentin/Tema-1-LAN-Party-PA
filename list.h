@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "error_handling.h"
 
 /*  Struct used to store a player's info */
 typedef struct Player {

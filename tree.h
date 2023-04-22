@@ -28,5 +28,7 @@ AVLNode *leftRotation(AVLNode *z);
 AVLNode *LRRotation(AVLNode *z);
 AVLNode *RLRotation(AVLNode *z);
 AVLNode *AVL_insert(AVLNode *node, Team *team);
-int get_node_level(AVLNode* node);
+int get_node_level(AVLNode *node);
 void createBSTTree(BSTNode **root, TeamList *last8Finalists);
+void deleteBSTTree(BSTNode *root);
+void deleteAVLTree(AVLNode *root);

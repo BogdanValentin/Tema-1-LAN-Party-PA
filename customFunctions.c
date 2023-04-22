@@ -4,21 +4,18 @@ void createWinnerLosersStacks(Queue *matchQueue, StackNode **winnersStack, Stack
 	while(isQueueEmpty(matchQueue) == 0) {
             Match *currentMatch = deQueue(matchQueue);
 
-            // calcul puncte prima echipa
             float mean1 = findTeamScore(currentMatch->firstTeam);
             
-            // calcul puncte a doua echipa
             float mean2 = findTeamScore(currentMatch->secondTeam);
             
             if(mean1 > mean2) {
                 push(winnersStack, currentMatch->firstTeam);
-
                 push(losersStack, currentMatch->secondTeam);
             } else {
                 push(losersStack, currentMatch->firstTeam);
-
                 push(winnersStack, currentMatch->secondTeam);
             }
+            free(currentMatch);
     }
 }
 
@@ -34,6 +31,9 @@ void fillQueueWithMatches(Queue **matchQueue, TeamList *teamList) {
 	*matchQueue = createQueue();
     while(teamList != NULL && teamList->next != NULL) {
         Match *newMatch = malloc(sizeof(Match));
+        if(newMatch == NULL) {
+            mallocError();
+        }
 
         newMatch->firstTeam = teamList->team;
         newMatch->secondTeam = teamList->next->team;
@@ -60,6 +60,9 @@ void refillQueueWithMatches(Queue *matchQueue, StackNode **winnersStack, int *nu
     while(isStackEmpty(*winnersStack) == 0) {
         (*numberOfTeams)++;
         Match *newMatch = malloc(sizeof(Match));
+        if(newMatch == NULL) {
+            mallocError();
+        }
         Team *aux1 = pop(winnersStack);
         newMatch->firstTeam = aux1;
         if(isStackEmpty(*winnersStack) == 0) {

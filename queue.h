@@ -2,6 +2,7 @@
 
 #include <limits.h>
 #include <stdlib.h>
+#include "error_handling.h"
 
 #include "list.h"
 
@@ -15,7 +16,7 @@ typedef struct Queue {
 } Queue;
 
 Queue* createQueue();
-void enQueue(Queue*q, Match *v);
-Match *deQueue(Queue*q);
-int isQueueEmpty(Queue*q);
-void deleteQueue(Queue*q);
+void enQueue(Queue *q, Match *v);
+Match *deQueue(Queue *q);
+int isQueueEmpty(Queue *q);
+void deleteQueue(Queue *q);

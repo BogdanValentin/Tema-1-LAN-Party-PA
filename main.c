@@ -1,5 +1,4 @@
 // TODO valgrind intrebat de free-urile alea
-// TODO error handling for all malocs
 
 #include "list.h"
 #include "tasks.h"
@@ -9,11 +8,15 @@
 
 int main(int argc, char *argv[])
 {
-    TeamList *teamList = NULL, *last8Finalists = NULL, *last8FinalistsDescending = NULL;
+    TeamList *teamList = NULL;
+    TeamList *last8Finalists = NULL;
+    TeamList *last8FinalistsDescending = NULL;
     int numberOfTeams = 0;
 
     FILE *fileTasks = fopen(argv[1], "rt");
-    if(fileTasks != NULL) {
+    if(fileTasks == NULL) {
+        fileError(argv[1]);
+    } else {
         int tasks[5];
 
         for(int i = 0; i < NUMBEROFTASKS; i++) {
@@ -37,9 +40,8 @@ int main(int argc, char *argv[])
         }
         if(tasks[4] == 1) {
             task5(last8FinalistsDescending, argv[3]);
+            freeTeamList(&last8FinalistsDescending);
         }
-    } else {
-        fileError(argv[1]);
     }
     return 0;
 }

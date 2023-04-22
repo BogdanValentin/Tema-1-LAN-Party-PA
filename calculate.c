@@ -10,7 +10,6 @@ int findMaxPowOf2(int number) {
 }
 
 void findTeamToEliminate(TeamList **teamList, TeamList **teamToEliminate) {
-    // TODO refactor code
     float lowestScore = FLOAT_MAX;
     TeamList *currentTeamList = *teamList;
     while(currentTeamList != NULL) {

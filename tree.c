@@ -10,6 +10,9 @@ int nodeHeight(AVLNode *node) {
 
 BSTNode *BST_newNode(Team *data) {
     BSTNode *newNode = malloc(sizeof(BSTNode));
+    if (newNode == NULL) {
+		mallocError();
+	}
     newNode->val = data;
     newNode->left = newNode->right = NULL;
     return newNode;
@@ -98,6 +101,9 @@ AVLNode *RLRotation(AVLNode *z) {
 AVLNode *AVL_insert(AVLNode *node, Team *team) {
     if(node == NULL) {
         node = malloc(sizeof(AVLNode));
+        if (node == NULL) {
+		    mallocError();
+	    }
         node->val = team;
         node->height = 0;
         node->left = node->right = NULL;
@@ -164,5 +170,21 @@ void createBSTTree(BSTNode **root, TeamList *last8Finalists) {
     while(last8Finalists != NULL) {
         *root = BST_insert(*root, last8Finalists->team);
         last8Finalists = last8Finalists->next;
+    }
+}
+
+void deleteBSTTree(BSTNode *root) {
+    if(root) {
+        deleteBSTTree(root->left);
+        deleteBSTTree(root->right);
+        free(root);
+    }
+}
+
+void deleteAVLTree(AVLNode *root) {
+    if(root) {
+        deleteAVLTree(root->left);
+        deleteAVLTree(root->right);
+        free(root);
     }
 }

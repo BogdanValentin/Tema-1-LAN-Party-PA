@@ -7,7 +7,6 @@ void task1(TeamList **teamList, int *numberOfTeams, char *fileNameInput, char *f
 
         // citire date fiecare echipa
         for(int i = 0; i < *numberOfTeams; i++) {
-            // TODO refactor for-ul
             int numberOfPlayersInTeam;
             readNumberOfPlayersInTeam(fileDate, &numberOfPlayersInTeam);
 
@@ -102,6 +101,13 @@ void task4(TeamList *last8Finalists, TeamList **last8FinalistsDescending, char *
     }
 
     BST_DRS(last8FinalistsDescending, root, fileNameOutput);
+    
+    
+
+
+    
+    
+    deleteBSTTree(root);
 }
 
 void task5(TeamList *last8finalistsDescending, char *fileNameOutput) {
@@ -118,4 +124,5 @@ void task5(TeamList *last8finalistsDescending, char *fileNameOutput) {
     }
     int level = -1;
     AVL_DRS(root, fileNameOutput, level);
+    deleteAVLTree(root);
 }

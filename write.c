@@ -7,6 +7,7 @@ void writeWinnerInFile(Team *team, char *fileName) {
         fclose(file);
     }
 }
+
 void writeRoundTitleInFile(int roundNumber, char *fileName) {
     FILE *file = fopen(fileName, "at");
     if(file != NULL) {
@@ -30,6 +31,7 @@ void writeMatchInFile(Match *match, char *fileName) {
         fclose(file);
     }
 }
+
 void writeTeamNamesInFile(TeamList *teamList, char *fileName) {
     FILE *file = fopen(fileName, "wt");
     if(file != NULL) {

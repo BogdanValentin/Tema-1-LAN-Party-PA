@@ -3,6 +3,9 @@
 void addPlayerToPlayerList(PlayerList **playerList, Player *player) {
     if (*playerList == NULL) {
         *playerList = malloc(sizeof(PlayerList));
+        if(*playerList == NULL) {
+            mallocError();
+        }
         (*playerList)->player = player;
         (*playerList)->next = NULL;
     } else {
@@ -11,6 +14,9 @@ void addPlayerToPlayerList(PlayerList **playerList, Player *player) {
             playerListCopy = playerListCopy->next;
         }
         playerListCopy->next = malloc(sizeof(PlayerList));
+        if(playerListCopy->next == NULL) {
+            mallocError();
+        }
         playerListCopy->next->player = player;
         playerListCopy->next->next = NULL;
     }
@@ -22,6 +28,9 @@ void addPlayerListToTeam(Team **team, PlayerList *playerList) {
 
 void addTeamToEndOfTeamList(TeamList **teamList, Team *team) {
     TeamList *newNode = malloc(sizeof(TeamList));
+    if(newNode == NULL) {
+        mallocError();
+    }
     newNode->team = team;
     newNode->next = *teamList;
     *teamList = newNode;
@@ -29,6 +38,9 @@ void addTeamToEndOfTeamList(TeamList **teamList, Team *team) {
 
 void addTeamToBeginningOfTeamList(TeamList **teamList, Team *team) {
     TeamList *newNode = malloc(sizeof(TeamList));
+    if(newNode == NULL) {
+        mallocError();
+    }
     newNode->team = team;
     newNode->next = NULL;
     if (*teamList == NULL) {
@@ -44,8 +56,14 @@ void addTeamToBeginningOfTeamList(TeamList **teamList, Team *team) {
 
 void addTeamCopyToTeamList(TeamList **teamList, Team *team) {
     Team *newTeam = malloc(sizeof(Team));
+    if(newTeam == NULL) {
+        mallocError();
+    }
 
     newTeam->name = malloc(strlen(team->name) + 1);
+    if(newTeam->name == NULL) {
+        mallocError();
+    }
     strcpy(newTeam->name, team->name);
 
     newTeam->players = NULL;
@@ -53,15 +71,27 @@ void addTeamCopyToTeamList(TeamList **teamList, Team *team) {
     PlayerList *currentPlayer = team->players;
     while (currentPlayer != NULL) {
         Player *newPlayer = malloc(sizeof(Player));
+        if(newPlayer == NULL) {
+            mallocError();
+        }
         newPlayer->firstName = malloc(strlen(currentPlayer->player->firstName) + 1);
+        if(newPlayer->firstName == NULL) {
+            mallocError();
+        }
         strcpy(newPlayer->firstName, currentPlayer->player->firstName);
 
         newPlayer->secondName = malloc(strlen(currentPlayer->player->secondName) + 1);
+        if(newPlayer->secondName == NULL) {
+            mallocError();
+        }
         strcpy(newPlayer->secondName, currentPlayer->player->secondName);
 
         newPlayer->points = currentPlayer->player->points;
 
         PlayerList *newPlayersList = malloc(sizeof(PlayerList));
+        if(newPlayersList == NULL) {
+            mallocError();
+        }
         newPlayersList->player = newPlayer;
         newPlayersList->next = newTeam->players;
         newTeam->players = newPlayersList;
@@ -77,6 +107,7 @@ void freePlayerList(PlayerList **playerList) {
         PlayerList *next = (*playerList)->next;
         free((*playerList)->player->firstName);
         free((*playerList)->player->secondName);
+        free((*playerList)->player);
         free(*playerList);
         *playerList = NULL;
         freePlayerList(&next);

@@ -12,8 +12,8 @@ typedef struct StackNode {
 } StackNode;
 
 StackData *top(StackNode *top);
-void push(StackNode**top, StackData *v);
-StackData *pop(StackNode**top);
-int isStackEmpty(StackNode*top);
-void deleteStack(StackNode**top);
+void push(StackNode **top, StackData *v);
+StackData *pop(StackNode **top);
+int isStackEmpty(StackNode *top);
+void deleteStack(StackNode **top);
 void functiebelea(StackNode *stackCopy, FILE *file);
