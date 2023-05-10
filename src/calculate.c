@@ -1,4 +1,4 @@
-#include "calculate.h"
+#include "../headers/calculate.h"
 
 int findMaxPowOf2(int number) {
     int power = 0;

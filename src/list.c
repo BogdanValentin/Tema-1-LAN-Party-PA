@@ -1,4 +1,4 @@
-#include "list.h"
+#include "../headers/list.h"
 
 void addPlayerToPlayerList(PlayerList **playerList, Player *player) {
     if (*playerList == NULL) {

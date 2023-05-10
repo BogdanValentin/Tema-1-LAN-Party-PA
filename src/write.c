@@ -1,4 +1,4 @@
-#include "write.h"
+#include "../headers/write.h"
 
 void writeWinnerInFile(Team *team, char *fileName) {
     FILE *file = fopen(fileName, "at");

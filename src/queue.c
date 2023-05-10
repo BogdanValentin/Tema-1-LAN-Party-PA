@@ -1,4 +1,4 @@
-#include "queue.h"
+#include "../headers/queue.h"
 
 Queue *createQueue(){
 	Queue *q;

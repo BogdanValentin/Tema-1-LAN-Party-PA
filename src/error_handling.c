@@ -1,4 +1,4 @@
-#include "error_handling.h"
+#include "../headers/error_handling.h"
 
 void mallocError() {
     printf("Error: malloc failed");

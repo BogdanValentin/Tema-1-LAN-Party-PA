@@ -1,4 +1,4 @@
-#include "read.h"
+#include "../headers/read.h"
 
 void readNumberOfTeams(FILE *file, int *numberOfTeams) {
     fscanf(file, "%d", numberOfTeams);

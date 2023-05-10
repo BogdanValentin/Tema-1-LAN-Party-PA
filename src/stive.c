@@ -1,4 +1,4 @@
-#include "stive.h"
+#include "../headers/stive.h"
 
 StackData *top(StackNode *top){
 	return top->val;

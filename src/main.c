@@ -1,6 +1,6 @@
-#include "list.h"
-#include "tasks.h"
-#include "error_handling.h"
+#include "../headers/list.h"
+#include "../headers/tasks.h"
+#include "../headers/error_handling.h"
 
 #define NUMBEROFTASKS 5
 

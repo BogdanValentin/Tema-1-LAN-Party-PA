@@ -1,4 +1,4 @@
-#include "tree.h"
+#include "../headers/tree.h"
 
 int nodeHeight(AVLNode *node) {
     if(node == NULL) {

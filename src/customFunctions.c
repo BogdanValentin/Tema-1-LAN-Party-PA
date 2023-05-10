@@ -1,4 +1,4 @@
-#include "customFunctions.h"
+#include "../headers/customFunctions.h"
 
 void createWinnerLosersStacks(Queue *matchQueue, StackNode **winnersStack, StackNode **losersStack) {
 	while(isQueueEmpty(matchQueue) == 0) {

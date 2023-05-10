@@ -1,4 +1,4 @@
-#include "tasks.h"
+#include "../headers/tasks.h"
 
 void task1(TeamList **teamList, int *numberOfTeams, char *fileNameInput, char *fileNameOutput) {
     FILE *fileDate = fopen(fileNameInput, "rt");
