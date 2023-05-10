@@ -125,7 +125,7 @@ AVLNode *AVL_insert(AVLNode *node, Team *team) {
         }
     }
     node->height = 1 + max(nodeHeight(node->left),nodeHeight(node->right));
-    int k = nodeHeight(node->left) - nodeHeight(node->right); // nivel de dezordine
+    int k = nodeHeight(node->left) - nodeHeight(node->right);
 
     float scoreOfLeftChild, scoreOfRightChild;
     if(node->left != NULL) {

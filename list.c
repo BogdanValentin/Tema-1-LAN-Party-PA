@@ -59,15 +59,12 @@ void addTeamCopyToTeamList(TeamList **teamList, Team *team) {
     if(newTeam == NULL) {
         mallocError();
     }
-
     newTeam->name = malloc(strlen(team->name) + 1);
     if(newTeam->name == NULL) {
         mallocError();
     }
     strcpy(newTeam->name, team->name);
-
     newTeam->players = NULL;
-
     PlayerList *currentPlayer = team->players;
     while (currentPlayer != NULL) {
         Player *newPlayer = malloc(sizeof(Player));
@@ -79,15 +76,12 @@ void addTeamCopyToTeamList(TeamList **teamList, Team *team) {
             mallocError();
         }
         strcpy(newPlayer->firstName, currentPlayer->player->firstName);
-
         newPlayer->secondName = malloc(strlen(currentPlayer->player->secondName) + 1);
         if(newPlayer->secondName == NULL) {
             mallocError();
         }
         strcpy(newPlayer->secondName, currentPlayer->player->secondName);
-
         newPlayer->points = currentPlayer->player->points;
-
         PlayerList *newPlayersList = malloc(sizeof(PlayerList));
         if(newPlayersList == NULL) {
             mallocError();
@@ -95,10 +89,8 @@ void addTeamCopyToTeamList(TeamList **teamList, Team *team) {
         newPlayersList->player = newPlayer;
         newPlayersList->next = newTeam->players;
         newTeam->players = newPlayersList;
-
         currentPlayer = currentPlayer->next;
     }
-
     addTeamToEndOfTeamList(teamList, newTeam);
 }
 
@@ -135,10 +127,9 @@ void deleteTeam(TeamList **teamList, TeamList *teamToEliminate) {
     if (*teamList == NULL || teamToEliminate == NULL) {
         return;
     }
-    // First node
     if (teamToEliminate == *teamList) {
         *teamList = (*teamList)->next;
-    } else { // Rest of the nodes
+    } else {
         TeamList *current = *teamList;
         while(current->next != NULL) {
             if(current->next == teamToEliminate) {

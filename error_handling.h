@@ -3,8 +3,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// Prints an error message and exits the program with code 1.
+/*  Handles memory allocation failure by printing an error message and
+    terminating the program. */
 void mallocError();
 
-// Prints an error message and exits the program with code 1.
+/*  Handles file opening failure by printing an error message and
+    terminating the program. */
 void fileError(char *fileName);

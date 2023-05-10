@@ -54,37 +54,28 @@ void task3(TeamList **teamList, TeamList **last8Finalists, char *fileNameOutput)
     StackNode *winnersStack = NULL;
 
     do {
-        // afisare numarul rundei
         writeRoundTitleInFile(++roundNumber, fileNameOutput);
 
-        // afisare meciuri intre echipe
         writeRoundMatchesInFile(matchQueue, fileNameOutput);
 
-        // creare stive
         StackNode *losersStack = NULL;
         createWinnerLosersStacks(matchQueue, &winnersStack, &losersStack);
         
-        // adaugare un punct fiecarui player 
         addOnePointToEveryPlayerFromStack(winnersStack);
 
-        // stergere stiva pierzatori
         deleteStack(&losersStack);
 
-        // afisare titlu castigatori
         writeWinnersTitleInFile(roundNumber, fileNameOutput);
 
-        // afisare castigatori
         writeWinnersInFile(winnersStack, fileNameOutput);
 
-        // refacere coada meciuri din stiva de castigatori
         refillQueueWithMatches(matchQueue, &winnersStack, &numberOfTeams);
 
-        // stocare ultimele 8 echipe
         if(numberOfTeams == 8) {
             storeLast8Finalists(last8Finalists, matchQueue->front);
         }
         
-    } while(numberOfTeams > 1); // pana cand avem un castigator
+    } while(numberOfTeams > 1);
 
     deleteQueue(matchQueue);
     deleteStack(&winnersStack);
@@ -101,12 +92,6 @@ void task4(TeamList *last8Finalists, TeamList **last8FinalistsDescending, char *
     }
 
     BST_DRS(last8FinalistsDescending, root, fileNameOutput);
-    
-    
-
-
-    
-    
     deleteBSTTree(root);
 }
 

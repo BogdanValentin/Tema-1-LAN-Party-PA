@@ -1,5 +1,3 @@
-// TODO valgrind intrebat de free-urile alea
-
 #include "list.h"
 #include "tasks.h"
 #include "error_handling.h"
