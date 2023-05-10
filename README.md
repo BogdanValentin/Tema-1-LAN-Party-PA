@@ -49,12 +49,12 @@ make
 - Pentru realizarea temei am folosit WSL și am întâmpinat dificultăți în momentul citirii datelor din fișiere, deoarece acestea erau în format Windows (CRLF), iar eu lucrând în WSL mă așteptam la formatul Linux (LF). Pentru a rezolva această problemă, am citit toată linia și am eliminat ultimele caractere, fie ele '\r' sau '\n'.
 - Unele teste conțineau trailing whitespace, așa că a trebuit să tratez cazul acesta.
 - Memory leaks. Am folosit valgrind pentru a identifica memory leaks-urile.
-- Setarea debugger-ului in VSCode
+- Setarea debugger-ului in VSCode.
 
 ## Lucruri interesante descoperite pe parcurs
-- Cum sa fac un makefile
-- Nu poti inchide un fisier ce nu s-a putut deschide
-- Nu poti deschide acelasi fisier daca acesta nu a fost mai intai inchis
+- Cum sa fac un makefile.
+- Nu poti inchide un fisier ce nu s-a putut deschide.
+- Nu poti deschide acelasi fisier daca acesta nu a fost mai intai inchis.
 
 ## Licență
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
