@@ -2,6 +2,8 @@
 
 #include "list.h"
 
+#define BUFFER_SIZE 100
+
 /*  Reads the number of teams from a file.*/
 void readNumberOfTeams(FILE *file, int *numberOfTeams);
 

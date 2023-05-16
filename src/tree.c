@@ -28,7 +28,7 @@ BSTNode *BST_insert(BSTNode *root, Team *team) {
         root->left = BST_insert(root->left, team);
     } else if(score > rootScore) {
         root->right = BST_insert(root->right, team);
-    } else { // egale
+    } else {
         if(strcmp(team->name, root->val->name) > 0) {
             root->right = BST_insert(root->right, team);
         } else if(strcmp(team->name, root->val->name) <  0){

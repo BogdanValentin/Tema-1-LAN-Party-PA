@@ -71,7 +71,7 @@ void task3(TeamList **teamList, TeamList **last8Finalists, char *fileNameOutput)
 
         refillQueueWithMatches(matchQueue, &winnersStack, &numberOfTeams);
 
-        if(numberOfTeams == 8) {
+        if(numberOfTeams == NUMBER_OF_FINALISTS) {
             storeLast8Finalists(last8Finalists, matchQueue->front);
         }
         

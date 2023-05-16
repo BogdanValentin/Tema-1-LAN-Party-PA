@@ -9,7 +9,7 @@ void readNumberOfPlayersInTeam(FILE *file, int *numberOfPlayersInTeam) {
 }
 
 void readTeamName(FILE *file, Team **newTeam) {
-    char teamName[100];
+    char teamName[BUFFER_SIZE];
     
     /*  Probabil de unde folosesc WSL newline-ul este \r\n (ca pe WIN)
         in loc de \n (ca pe LINUX). Asa ca sunt nevoit sa citesc pana la \r

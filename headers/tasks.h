@@ -12,6 +12,8 @@
 #include "tree.h"
 #include "error_handling.h"
 
+#define NUMBER_OF_FINALISTS 8
+
 // Responsible for handling task 1.
 void task1(TeamList **teamList, int *numberOfTeams, char *fileNameInput, char *fileNameOutput);
 
