@@ -98,71 +98,83 @@ AVLNode *RLRotation(AVLNode *z) {
     return leftRotation(z);
 }
 
+AVLNode *createNode(Team *team) {
+    AVLNode *node = malloc(sizeof(AVLNode));
+    if (node == NULL) {
+        mallocError();
+    }
+    node->val = team;
+    node->height = 0;
+    node->left = node->right = NULL;
+    return node;
+}
+
+void updateChildrenScore(float *scoreOfLeftChild, float *scoreOfRightChild, AVLNode *node) {
+    if (node->left != NULL) {
+        *scoreOfLeftChild = findTeamScore(node->left->val);
+    } else {
+        *scoreOfLeftChild = 0;
+    }
+    if (node->right != NULL) {
+        *scoreOfRightChild = findTeamScore(node->right->val);
+    } else {
+        *scoreOfRightChild = 0;
+    }
+}
+
+void decideRotation(AVLNode **nodePtr, int k, float scoreOfTeam, float scoreOfLeftChild, float scoreOfRightChild, Team *team) {
+    AVLNode *node = *nodePtr;
+    if (k > 1) {
+        if (scoreOfTeam < scoreOfLeftChild) {
+            *nodePtr = rightRotation(node);
+        } else if (scoreOfTeam == scoreOfLeftChild) {
+            if (strcmp(node->left->val->name, team->name) > 0) {
+                *nodePtr = rightRotation(node);
+            }
+        }
+    } else if (k < -1) {
+        if (scoreOfTeam > scoreOfRightChild) {
+            *nodePtr = leftRotation(node);
+        } else if (scoreOfTeam == scoreOfRightChild) {
+            if (strcmp(node->right->val->name, team->name) < 0) {
+                *nodePtr = leftRotation(node);
+            }
+        }
+    } else if (k > 1 && scoreOfTeam > scoreOfLeftChild) {
+        *nodePtr = RLRotation(node);
+    } else if (k < -1 && scoreOfTeam < scoreOfRightChild) {
+        *nodePtr = LRRotation(node);
+    }
+}
+
 AVLNode *AVL_insert(AVLNode *node, Team *team) {
-    if(node == NULL) {
-        node = malloc(sizeof(AVLNode));
-        if (node == NULL) {
-		    mallocError();
-	    }
-        node->val = team;
-        node->height = 0;
-        node->left = node->right = NULL;
-        return node;
+    if (node == NULL) {
+        return createNode(team);
     }
 
     float scoreOfNode = findTeamScore(node->val);
     float scoreOfTeam = findTeamScore(team);
 
-    if(scoreOfTeam < scoreOfNode) {
+    if (scoreOfTeam < scoreOfNode) {
         node->left = AVL_insert(node->left, team);
-    } else if(scoreOfTeam > scoreOfNode) {
+    } else if (scoreOfTeam > scoreOfNode) {
         node->right = AVL_insert(node->right, team);
     } else {
-        if(strcmp(node->val->name, team->name) > 0) {
+        if (strcmp(node->val->name, team->name) > 0) {
             node->left = AVL_insert(node->left, team);
-        } else if(strcmp(node->val->name, team->name) < 0){
+        } else if (strcmp(node->val->name, team->name) < 0) {
             node->right = AVL_insert(node->right, team);
         }
     }
-    node->height = 1 + max(nodeHeight(node->left),nodeHeight(node->right));
+
+    node->height = 1 + max(nodeHeight(node->left), nodeHeight(node->right));
     int k = nodeHeight(node->left) - nodeHeight(node->right);
 
     float scoreOfLeftChild, scoreOfRightChild;
-    if(node->left != NULL) {
-        scoreOfLeftChild = findTeamScore(node->left->val);
-    } else {
-        scoreOfLeftChild = 0;
-    }
-    if(node->right != NULL) {
-        scoreOfRightChild = findTeamScore(node->right->val);
-    } else {
-        scoreOfRightChild = 0;
-    }
+    updateChildrenScore(&scoreOfLeftChild, &scoreOfRightChild, node);
 
-    if (k > 1) {
-        if (scoreOfTeam < scoreOfLeftChild) {
-            return rightRotation(node);
-        } else if (scoreOfTeam == scoreOfLeftChild) {
-            if (strcmp(node->left->val->name, team->name) > 0) {
-                return rightRotation(node);
-            }
-        }
-    }
-    if (k < -1) {
-        if (scoreOfTeam > scoreOfLeftChild) {
-            return leftRotation(node);
-        } else if (scoreOfTeam == scoreOfLeftChild) {
-            if (strcmp(node->left->val->name, team->name) < 0) {
-                return leftRotation(node);
-            }
-        }
-    }
-    if(k > 1 && scoreOfTeam > scoreOfLeftChild) {
-        return RLRotation(node);
-    }
-    if(k < -1 && scoreOfTeam < scoreOfRightChild) {
-        return LRRotation(node);
-    }
+    decideRotation(&node, k, scoreOfTeam, scoreOfLeftChild, scoreOfRightChild, team);
+
     return node;
 }
 

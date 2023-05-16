@@ -49,6 +49,15 @@ AVLNode *LRRotation(AVLNode *z);
 /*  Performs a right-left rotation on the AVL tree.*/
 AVLNode *RLRotation(AVLNode *z);
 
+/*  Creates a new node for the AVL tree.*/
+AVLNode *createNode(Team *team);
+
+/*  Updates the scores of the left and right child nodes of a given AVL node*/
+void updateChildrenScore(float *scoreOfLeftChild, float *scoreOfRightChild, AVLNode *node);
+
+/*  Decides which rotation to perform on the AVL tree.*/
+void decideRotation(AVLNode **nodePtr, int k, float scoreOfTeam, float scoreOfLeftChild, float scoreOfRightChild, Team *team);
+
 /*  Inserts a new node with the given data into the AVL tree and balances it.*/
 AVLNode *AVL_insert(AVLNode *node, Team *team);
 
