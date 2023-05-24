@@ -10,13 +10,6 @@ void readNumberOfPlayersInTeam(FILE *file, int *numberOfPlayersInTeam) {
 
 void readTeamName(FILE *file, Team **newTeam) {
     char teamName[BUFFER_SIZE];
-    
-    /*  Probabil de unde folosesc WSL newline-ul este \r\n (ca pe WIN)
-        in loc de \n (ca pe LINUX). Asa ca sunt nevoit sa citesc pana la \r
-        si dupa sa mai citesc 2 caractere (\r\n). Merg multe combinatii pentru
-        a scapa de aceste 2 caractere (am vazut ca fscanf mai si ignora unele
-        dintre ele) dar nu vreau sa mai pierd timp depanand asta. Cert e ca merge
-        asa pe LINUX.*/
 
     if (fgets(teamName, sizeof(teamName), file) != NULL) {
         int len = strlen(teamName);
@@ -40,7 +33,7 @@ void readTeamName(FILE *file, Team **newTeam) {
 }
 
 void readNamesOfPlayer(FILE *file, Player **newPlayer) {
-    char firstName[100];
+    char firstName[BUFFER_SIZE];
     fscanf(file, "%s", firstName);
     (*newPlayer)->firstName = malloc((strlen(firstName) + 1) * sizeof(char));
     if ((*newPlayer)->firstName == NULL) {
@@ -48,7 +41,7 @@ void readNamesOfPlayer(FILE *file, Player **newPlayer) {
 	}
     strcpy((*newPlayer)->firstName, firstName);
 
-    char secondName[100];
+    char secondName[BUFFER_SIZE];
     fscanf(file, "%s", secondName);
     (*newPlayer)->secondName = malloc((strlen(secondName) + 1) * sizeof(char));
     if ((*newPlayer)->secondName == NULL) {

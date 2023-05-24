@@ -4,6 +4,7 @@
 * [Obiective](#obiective)
 * [Instalare & Utilizare](#instalare--utilizare)
 * [Cerințe](#cerințe)
+* [Organizare](#organizare)
 * [Dificultăți întâmpinate](#dificultăți-întâmpinate)
 * [Lucruri interesante descoperite pe parcurs](#lucruri-interesante-descoperite-pe-parcurs)
 * [Licență](#licență)
@@ -44,6 +45,15 @@ make
     - Se vor repeta pașii enumerați pana la aflarea echipelor de pe primele 8 locuri, care vor fi salvate intr-o alta lista, dupa aflarea acestora se vor continua meciurile pana la aflarea echipei castigatoare.
 4. Se va realiza un clasament al ultimelor 8 echipe (salvate la subpunctul anterior) sub forma unui BST(Binary Search Tree). Acesta va fi ordonat după punctajul pe echipă și i se va afișa conținutul în ordine descrescătoare(in cazul in care doua echipe au acelasi punctaj se vor ordona in functie de nume, descrescator).
 5. Se va realiza un arbore de tip AVL cu ultimele 8 echipe (salvate la subpunctul 3, dar sortate ca la subpunctul 4) si se vor afisa echipele de pe nivelul 2 al arborelui.
+
+## Organizare
+- Pentru inceput citesc datele din c.in si le stochez intr-un vector. Apoi, pe baza acestui vector realizez taskurile dorite.
+- La taskul 1 citesc datele echipelor(nume echipa, nume playeri si puncte playeri) din d.in, adaug playerii in lista de playeri si creez echipele, adaugandu-le in lista de echipe urmand sa afisez doar numele echipelor in fisierul r.out.
+- La taskul 2 calculez numarul de echipe cu care trebuie sa raman dupa eliminare si elimin echipele cu cel mai mic punctaj pana ajung la numarul de echipe dorit. La final afisez doar echipele ramase.
+OBS: Cum taskurile se leaga intre ele si nu ti se cere sa faci doar un task fara sa le faci si pe cele de dinainte, atunci cand afisez taskul 2 dau override la ce era scris de la taskul 1.
+- La taskul 3 creez o coada de meciuni intre 2 echipe, scriu in fisierul r.out meciurile si creez 2 stive, una pentru invinsi si una pentru castigatori. Cea cu invinsi este stearsa, iar din cea de castigatori umplu din nou coada. Continui asta pana ajung la castigator. In plus atunci cand ajung la ultimele 8 echipe, le adaug intr-o stiva de echipe si le salvez punctajul din momentul respectiv.
+- La taskul 4 creez un BST cu ultimele 8 echipe salvate mai sus luand pe rand elementele din stiva si adaugandu-le in BST. La final afisez in DRS echipele si sterg arborele.
+- La taskul 5 creez un arbore AVL din ultimii 8 finaliști în ordine descrescătoare apoi scriu echipele de pe nivelul 2 în fișierul de ieșire, parcurgând arborele AVL în ordine descrescătoare. După afișarea echipelor de pe nivelul 2, șterg arborele AVL.
 
 ## Dificultăți întâmpinate
 - Pentru realizarea temei am folosit WSL și am întâmpinat dificultăți în momentul citirii datelor din fișiere, deoarece acestea erau în format Windows (CRLF), iar eu lucrând în WSL mă așteptam la formatul Linux (LF). Pentru a rezolva această problemă, am citit toată linia și am eliminat ultimele caractere, fie ele '\r' sau '\n'.

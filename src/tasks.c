@@ -5,12 +5,11 @@ void task1(TeamList **teamList, int *numberOfTeams, char *fileNameInput, char *f
     if(fileDate != NULL) {
         readNumberOfTeams(fileDate, numberOfTeams);
 
-        // citire date fiecare echipa
         for(int i = 0; i < *numberOfTeams; i++) {
             int numberOfPlayersInTeam;
             readNumberOfPlayersInTeam(fileDate, &numberOfPlayersInTeam);
 
-            fgetc(fileDate); // citire spatiu intre numar playeri si nume echipa
+            fgetc(fileDate);
 
             Team *newTeam = NULL;
             readTeamName(fileDate, &newTeam);
@@ -18,7 +17,7 @@ void task1(TeamList **teamList, int *numberOfTeams, char *fileNameInput, char *f
             PlayerList *playerList = NULL;
             readPlayers(fileDate, &playerList, numberOfPlayersInTeam);
             
-            fgetc(fileDate); // citire randul liber intre echipe
+            fgetc(fileDate);
 
             addPlayerListToTeam(&newTeam, playerList);
 
@@ -44,10 +43,9 @@ void task2(TeamList **teamList, int *numberOfTeams, char *fileNameOutput) {
 }
 
 void task3(TeamList **teamList, TeamList **last8Finalists, char *fileNameOutput) {
-    int roundNumber = 0;    // contor runda
-    int numberOfTeams;      // contor numar echipe pentru a ne opri cand ajungem la echipa castigatoare
+    int roundNumber = 0;
+    int numberOfTeams;
     
-    // creare coada cu echipe
     Queue *matchQueue = NULL;
     fillQueueWithMatches(&matchQueue, *teamList);
    
@@ -55,7 +53,7 @@ void task3(TeamList **teamList, TeamList **last8Finalists, char *fileNameOutput)
 
     do {
         writeRoundTitleInFile(++roundNumber, fileNameOutput);
-
+        
         writeRoundMatchesInFile(matchQueue, fileNameOutput);
 
         StackNode *losersStack = NULL;
